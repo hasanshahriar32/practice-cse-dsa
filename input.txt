@@ -1,2 +1,3 @@
-programing
-r
+coding practice
+practice
+exercise

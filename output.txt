@@ -1,1 +1,5 @@
-Enter  the string : Enter character: pogaming
+
+Enter a string: 
+Enter the substring: 
+Enter the new substring: 
+The string after replacing : coding exercise

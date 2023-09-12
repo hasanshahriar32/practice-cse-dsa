@@ -1348,3 +1348,574 @@ r
 ```
 Enter  the string : Enter character: pogaming
 ```
+
+## 21) Write a program to replace a pattern with another pattern in the text.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+void replaceSubstring(char[], char[], char[]);
+
+main()
+{
+    char string[100], sub[100], new_str[100];
+    printf("\nEnter a string: ");
+    gets(string);
+    printf("\nEnter the substring: ");
+    gets(sub);
+    printf("\nEnter the new substring: ");
+    gets(new_str);
+    replaceSubstring(string, sub, new_str);
+    printf("\nThe string after replacing : %s\n", string);
+}
+
+void replaceSubstring(char string[], char sub[], char new_str[])
+{
+    int stringLen, subLen, newLen;
+    int i = 0, j, k;
+    int flag = 0, start, end;
+    stringLen = strlen(string);
+    subLen = strlen(sub);
+    newLen = strlen(new_str);
+
+    for (i = 0; i < stringLen; i++)
+    {
+        flag = 0;
+        start = i;
+        for (j = 0; string[i] == sub[j]; j++, i++)
+            if (j == subLen - 1)
+                flag = 1;
+        end = i;
+        if (flag == 0)
+            i -= j;
+        else
+        {
+            for (j = start; j < end; j++)
+            {
+                for (k = start; k < stringLen; k++)
+                    string[k] = string[k + 1];
+                stringLen--;
+                i--;
+            }
+
+            for (j = start; j < start + newLen; j++)
+            {
+                for (k = stringLen; k >= j; k--)
+                    string[k + 1] = string[k];
+                string[j] = new_str[j - start];
+                stringLen++;
+                i++;
+            }
+        }
+    }
+}
+```
+
+input
+
+```
+coding practice
+practice
+exercise
+```
+
+output
+
+```
+Enter a string:
+Enter the substring:
+Enter the new substring:
+The string after replacing : coding exercise
+```
+
+## 22) Write a program to develop the first pattern matching algorithm (Brute Force based).
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+void bruteForcePatternMatch(const char *text, const char *pattern) {
+    int textLength = strlen(text);
+    int patternLength = strlen(pattern);
+    int found = 0; // Flag to track if the pattern is found
+
+    for (int i = 0; i <= textLength - patternLength; i++) {
+        int j;
+
+        // Check for a match at position i
+        for (j = 0; j < patternLength; j++) {
+            if (text[i + j] != pattern[j]) {
+                break; // No match, exit the inner loop
+            }
+        }
+
+        // If a match is found, print the position
+        if (j == patternLength) {
+            printf("Pattern found at position %d\n", i);
+            found = 1;
+        }
+    }
+
+    // If no match is found, print a message
+    if (!found) {
+        printf("Pattern not found in the text.\n");
+    }
+}
+
+int main() {
+    char text[1000]; // Assuming a maximum text length of 1000 characters
+    char pattern[100]; // Assuming a maximum pattern length of 100 characters
+
+    // Input the text from the user
+    printf("Enter the text: ");
+    scanf(" %[^\n]", text); // Read the entire line, including spaces
+
+    // Input the pattern to search for
+    printf("Enter the pattern to search for: ");
+    scanf(" %[^\n]", pattern); // Read the entire line, including spaces
+
+    // Call the Brute Force pattern matching function
+    bruteForcePatternMatch(text, pattern);
+
+    return 0;
+}
+```
+
+```
+Enter the text: This is a sample text with a simple example.
+Enter the pattern to search for: example
+Pattern found at position 25
+```
+
+## 23. Write a program to develop the second pattern matching algorithm (Finite Automata based).
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define NO_OF_CHARS 256
+
+// Function to compute the transition function
+void computeTransitionFunction(const char *pattern, int patternLength, int TF[][NO_OF_CHARS]) {
+    int state, character;
+
+    // Initialize the transition function with zeros
+    for (state = 0; state <= patternLength; ++state)
+        for (character = 0; character < NO_OF_CHARS; ++character)
+            TF[state][character] = 0;
+
+    // Fill in the values based on the pattern
+    for (state = 0; state <= patternLength; ++state) {
+        for (character = 0; character < NO_OF_CHARS; ++character) {
+            int nextState = state + 1;
+            while (nextState > 0 && pattern[state] != character) {
+                nextState = TF[nextState - 1][character];
+            }
+            if (character < NO_OF_CHARS) {
+                TF[state][character] = nextState;
+            }
+        }
+    }
+}
+
+// Finite Automata-based pattern matching
+void finiteAutomataPatternMatch(const char *text, const char *pattern) {
+    int textLength = strlen(text);
+    int patternLength = strlen(pattern);
+    int TF[patternLength + 1][NO_OF_CHARS];
+    int state, character;
+
+    // Compute the transition function
+    computeTransitionFunction(pattern, patternLength, TF);
+
+    // Initialize the state to the start state
+    state = 0;
+
+    // Traverse the text with the Finite Automaton
+    for (int i = 0; i < textLength; i++) {
+        character = text[i];
+        state = TF[state][character];
+
+        if (state == patternLength) {
+            printf("Pattern found at position %d\n", i - patternLength + 1);
+        }
+    }
+}
+
+int main() {
+    char text[1000]; // Assuming a maximum text length of 1000 characters
+    char pattern[100]; // Assuming a maximum pattern length of 100 characters
+
+    // Input the text from the user
+    printf("Enter the text: ");
+    scanf(" %[^\n]", text); // Read the entire line, including spaces
+
+    // Input the pattern to search for
+    printf("Enter the pattern to search for: ");
+    scanf(" %[^\n]", pattern); // Read the entire line, including spaces
+
+    // Call the Finite Automaton pattern matching function
+    finiteAutomataPatternMatch(text, pattern);
+
+    return 0;
+}
+```
+
+```
+Enter the text: ababcababcabcabc
+Enter the pattern to search for: abcabc
+Pattern found at position 2
+Pattern found at position 5
+Pattern found at position 8
+```
+
+## 24. Write a program that uses functions to perform the following operations on singly linked
+
+list:
+a) Creation
+b) Insertion
+c) Deletion
+d) Traversal
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a structure for a singly linked list node
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+// Function to create a new node with the given data
+struct Node *createNode(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a node at the beginning of the linked list
+struct Node *insertAtBeginning(struct Node *head, int data) {
+    struct Node *newNode = createNode(data);
+    newNode->next = head;
+    return newNode;
+}
+
+// Function to delete a node with the given data from the linked list
+struct Node *deleteNode(struct Node *head, int data) {
+    struct Node *current = head;
+    struct Node *prev = NULL;
+
+    while (current != NULL && current->data != data) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Node with data %d not found.\n", data);
+        return head;
+    }
+
+    if (prev == NULL) {
+        // If the node to delete is the first node
+        head = head->next;
+    } else {
+        prev->next = current->next;
+    }
+
+    free(current);
+    return head;
+}
+
+// Function to traverse and print the linked list
+void traverse(struct Node *head) {
+    struct Node *current = head;
+
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node *head = NULL;
+
+    // Creating the linked list
+    head = insertAtBeginning(head, 5);
+    head = insertAtBeginning(head, 3);
+    head = insertAtBeginning(head, 1);
+
+    // Traversing and printing the linked list
+    printf("Linked List: ");
+    traverse(head);
+
+    // Deleting a node
+    head = deleteNode(head, 3);
+
+    // Traversing and printing the updated linked list
+    printf("Updated Linked List: ");
+    traverse(head);
+
+    // Freeing memory
+    while (head != NULL) {
+        struct Node *temp = head;
+        head = head->next;
+        free(temp);
+    }
+
+    return 0;
+}
+```
+
+```
+Linked List: 1 -> 3 -> 5 -> NULL
+Updated Linked List: 1 -> 5 -> NULL
+```
+
+## 25. Write a program to create a circular linked list. Perform insertion and deletion at the beginning and end of the list.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a structure for a circular linked list node
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+// Function to create a new node with the given data
+struct Node *createNode(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = newNode; // Point to itself to create a circular link
+    return newNode;
+}
+
+// Function to insert a node at the beginning of the circular linked list
+struct Node *insertAtBeginning(struct Node *head, int data) {
+    struct Node *newNode = createNode(data);
+
+    if (head == NULL) {
+        head = newNode;
+        newNode->next = head; // Make it point to itself to form the circular link
+    } else {
+        newNode->next = head->next;
+        head->next = newNode;
+    }
+
+    return head;
+}
+
+// Function to insert a node at the end of the circular linked list
+struct Node *insertAtEnd(struct Node *head, int data) {
+    struct Node *newNode = createNode(data);
+
+    if (head == NULL) {
+        head = newNode;
+        newNode->next = head; // Make it point to itself to form the circular link
+    } else {
+        newNode->next = head->next;
+        head->next = newNode;
+        head = newNode;
+    }
+
+    return head;
+}
+
+// Function to delete a node at the beginning of the circular linked list
+struct Node *deleteAtBeginning(struct Node *head) {
+    if (head == NULL) {
+        printf("Circular linked list is empty. Cannot delete.\n");
+        return head;
+    }
+
+    struct Node *temp = head->next;
+
+    if (temp == head) {
+        // Only one node in the list
+        free(temp);
+        head = NULL;
+    } else {
+        head->next = temp->next;
+        free(temp);
+    }
+
+    return head;
+}
+
+// Function to delete a node at the end of the circular linked list
+struct Node *deleteAtEnd(struct Node *head) {
+    if (head == NULL) {
+        printf("Circular linked list is empty. Cannot delete.\n");
+        return head;
+    }
+
+    struct Node *temp = head->next;
+
+    if (temp == head) {
+        // Only one node in the list
+        free(temp);
+        head = NULL;
+    } else {
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+        temp->next = head->next;
+        free(head);
+        head = temp;
+    }
+
+    return head;
+}
+
+// Function to traverse and print the circular linked list
+void traverse(struct Node *head) {
+    if (head == NULL) {
+        printf("Circular linked list is empty.\n");
+        return;
+    }
+
+    struct Node *current = head->next;
+
+    do {
+        printf("%d -> ", current->data);
+        current = current->next;
+    } while (current != head->next);
+
+    printf("\n");
+}
+
+int main() {
+    struct Node *head = NULL;
+
+    // Inserting nodes at the beginning
+    head = insertAtBeginning(head, 3);
+    head = insertAtBeginning(head, 2);
+    head = insertAtBeginning(head, 1);
+
+    // Inserting nodes at the end
+    head = insertAtEnd(head, 4);
+    head = insertAtEnd(head, 5);
+
+    // Traversing and printing the circular linked list
+    printf("Circular Linked List: ");
+    traverse(head);
+
+    // Deleting nodes at the beginning and end
+    head = deleteAtBeginning(head);
+    head = deleteAtEnd(head);
+
+    // Traversing and printing the updated circular linked list
+    printf("Updated Circular Linked List: ");
+    traverse(head);
+
+    // Freeing memory
+    while (head != NULL) {
+        struct Node *temp = head->next;
+        if (temp == head) {
+            free(temp);
+            head = NULL;
+        } else {
+            head->next = temp->next;
+            free(temp);
+        }
+    }
+
+    return 0;
+}
+```
+
+```
+Circular Linked List: 1 -> 2 -> 3 -> 4 -> 5 ->
+Updated Circular Linked List: 2 -> 3 -> 4 ->
+```
+
+- Programming Problems:
+  1. Write a program that finds the prime numbers using sieve method.
+  2. Write a program that finds the largest and smallest elements in an array.
+  3. An array A Containing N elements is given. Write a program that captures the sum of
+     array elements.
+  4. Write a program to find whether the array of integers contains a duplicate number.
+  5. Write a program to insert a number at a given location in an array.
+  6. Write a program to delete a number from a given location in an array.
+  7. Write a program to merge two sorted arrays.
+  8. 8.Write programs for implementing the following sorting methods to arrange a list of
+     integers/strings in ascending/descending order:
+     a) Bubble Sort
+     b) Selection Sort
+     c) Insertion Sort
+  9. Write programs for search an element from a list of integers/strings
+     a) Liner Search
+     b) Binary Search
+  10. Write a program to read and display a matrix.
+  11. Write a program to add and multiply two matrices.
+  12. Write a program that takes a matrix A and finds its transpose AT and displays it.
+  13. Write a program that computes the sum of diagonal elements of a square matrix.
+  14. Write a program to find the length of a string.
+  15. Write a program to concatenate two strings.
+  16. Write a program to compare two strings.
+  17. Write a program to reverse a given string.
+  18. Write a program to extract a substring from a given string.
+  19. Write a program to insert a string in the main text.
+  20. Write a program to delete every occurrence of a pattern from a text.
+  21. Write a program to replace a pattern with another pattern in the text.
+  22. Write a program to develop the first pattern matching algorithm (Brute Force based).
+  23. Write a program to develop the second pattern matching algorithm (Finite Automata
+      based).
+  24. Write a program that uses functions to perform the following operations on singly linked
+      list:
+      a) Creation
+      b) Insertion
+      c) Deletion
+      d) Traversal
+  25. Write a program to create a circular linked list. Perform insertion and deletion at the
+      beginning and end of the list.
+  26. Write programs that uses stack operations to convert a given infix expression into its
+      postfix equivalent. Implement the stack using an array.
+  27. Write a Program in C to Implement
+      a) Stacks using arrays
+      b) Stacks using linked list
+      c) Queue suing arrays
+      d) circular queue using arrays
+  28. Write a program to evaluate a postfix expression.
+  29. Write a program to convert an infix notation to postfix notation
+  30. Write a program to calculate the factorial of a given number.
+  31. Write a program to print the Fibonacci series using recursion.
+  32. Write a program to solve the Towers of Hanoi Problem using recursion.
+  33. Write a program to calculate the factorial of a given number.
+  34. Write a program to demonstrate several tree operations
+      a) Insertion
+      b) Inorder
+      c) Preorder
+      d) Postorder
+  35. Write a program to create a binary search tree
+  36. Write a program to create a graph of n vertices using an adjacency list.
+  37. Write a program to implement Warshall’s algorithm to find the path matrix
+  38. Write a program to implement Warshall’s algorithm to find the all pair shortest path
+  39. Create a word processor using C/C++. It should be menu driven program.
+      a) Text must be read from the file and after processing written into file
+      b) Number of line, characters, words, etc
+      c) Find a pattern from the text
+      d) Insert, delete, append a string
+      e) Replace a string
+  40. Using C structure create student records of CSE L2-I students. It should be menu driven
+      program.
+      a) Fields are Roll no, Name, CGPA, address
+      b) Display the records.
+      c) Insert a new record in desire location
+      d) Delete a record from a desire location
+      e) Searching a record by Roll no
+      f) Sorting the records

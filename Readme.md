@@ -1131,3 +1131,220 @@ output
 ```
 Enter the first string: Enter the second string: Concatenated string: hello-buddy
 ```
+
+## 16) Write a program to compare two strings.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[100]; // Assuming a maximum combined length of 100 characters for both strings
+    char str2[100]; // You can adjust this size based on your input requirements
+
+    // Input the first string from the user
+    printf("Enter the first string: ");
+    scanf("%s", str1);
+
+    // Input the second string from the user
+    printf("Enter the second string: ");
+    scanf("%s", str2);
+
+    // Compare the two strings using the strcmp() function
+    int result = strcmp(str1, str2);
+
+    if (result == 0) {
+        printf("The strings are equal.\n");
+    } else if (result < 0) {
+        printf("The first string is less than the second string.\n");
+    } else {
+        printf("The first string is greater than the second string.\n");
+    }
+
+    return 0;
+}
+```
+
+```
+Enter the first string: Hello
+Enter the second string: World
+The first string is less than the second string.
+```
+
+## 17) Write a program to reverse a given string.
+
+```c
+#include <string.h>
+
+void main()
+{
+    char str1[100], tmp;
+    int l, lind, rind, i;
+
+    printf("Input a string to reverse : ");
+    gets(str1);
+    l = strlen(str1);
+
+    lind = 0;
+    rind = l - 1;
+
+    for (i = lind; i < rind; i++)
+    {
+        tmp = str1[i];
+        str1[i] = str1[rind];
+        str1[rind] = tmp;
+        rind--;
+    }
+
+    printf("Reversed string is: %s\n\n", str1);
+}
+```
+
+```
+Enter a string: Hello
+Reversed string: olleH
+```
+
+## 18) Write a program to extract a substring from a given string.
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    char string[1000], sub[1000];
+    int position, length, c = 0;
+
+    printf("Input a string:");
+    gets(string);
+
+    printf("Enter the position and length of substring:");
+    scanf("%d%d", &position, &length);
+
+    while (c < length)
+    {
+        sub[c] = string[position + c - 1];
+        c++;
+    }
+    sub[c] = '\0';
+
+    printf("Required substring is \"%s\"\n", sub);
+
+    return 0;
+}
+```
+
+input
+
+```
+TO BE OR NOT
+3 7
+```
+
+output
+
+```
+Input a string:Enter the position and length of substring:Required substring is " BE OR "
+```
+
+## 19) Write a program to insert a string in the main text.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char text[1000]; // Assuming a maximum main text length of 1000 characters
+    char insertStr[100]; // Assuming a maximum insert string length of 100 characters
+    int position;
+
+    // Input the main text from the user
+    printf("Enter the main text: ");
+    scanf(" %[^\n]", text); // Read the entire line, including spaces
+
+    // Input the string to be inserted
+    printf("Enter the string to insert: ");
+    scanf(" %[^\n]", insertStr); // Read the entire line, including spaces
+
+    // Input the position to insert the string
+    printf("Enter the position to insert the string (0-based index): ");
+    scanf("%d", &position);
+
+    // Calculate the length of the main text and the insert string
+    int textLength = strlen(text);
+    int insertLength = strlen(insertStr);
+
+    // Check if the position is valid
+    if (position < 0 || position > textLength) {
+        printf("Invalid position. Please enter a valid position within the main text.\n");
+        return 1;
+    }
+
+    // Shift characters in the main text to make space for the insert string
+    for (int i = textLength; i >= position; i--) {
+        text[i + insertLength] = text[i];
+    }
+
+    // Insert the string into the main text
+    for (int i = 0; i < insertLength; i++) {
+        text[position + i] = insertStr[i];
+    }
+
+    // Display the main text with the inserted string
+    printf("Modified main text: %s\n", text);
+
+    return 0;
+}
+```
+
+```
+Enter the main text: This is a sample text.
+Enter the string to insert: great
+Enter the position to insert the string (0-based index): 8
+Modified main text: This is a great sample text.
+```
+
+## 20) Write a program to delete every occurrence of a pattern from a text.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char s[1000], c, temp = 1;
+    int i, j, k = 0, n;
+
+    printf("Enter  the string : ");
+    gets(s);
+
+    printf("Enter character: ");
+    c = getchar();
+
+    for (i = 0; s[i]; i++)
+    {
+        s[i] = s[i + k];
+
+        if (s[i] == c)
+        {
+            k++;
+            i--;
+        }
+    }
+
+    printf("%s", s);
+
+    return 0;
+}
+```
+
+input
+
+```
+programing
+r
+```
+
+```
+Enter  the string : Enter character: pogaming
+```

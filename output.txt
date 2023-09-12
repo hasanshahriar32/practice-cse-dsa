@@ -1,1 +1,1 @@
-Enter the first string: Enter the second string: Concatenated string: hello-buddy
+Enter  the string : Enter character: pogaming

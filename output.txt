@@ -1,8 +1,1 @@
-Input elements in the matrix :
-element - [0],[0] : element - [0],[1] : element - [0],[2] : element - [1],[0] : element - [1],[1] : element - [1],[2] : element - [2],[0] : element - [2],[1] : element - [2],[2] : 
-The matrix is : 
-
-5	25	30	
-100	100	2	
-100	2	5	
-
+Enter the first string: Enter the second string: Concatenated string: hello-buddy

@@ -829,3 +829,305 @@ The matrix is :
 100	100	2
 100	2	5
 ```
+
+## 11. Write a program to add and multiply two matrices
+
+Solution:
+
+```c
+#include <stdio.h>
+int main()
+{
+    int a[3][3], b[3][3], c[3][3] = {0}, d[3][3] = {0};
+    int i, j, k, m, n, p, q;
+    printf("Enter no. of rows and columns in matrix A: ");
+    scanf("%d%d", &m, &n);
+    printf("Enter no. of rows and columns in matrix B: ");
+    scanf("%d%d", &p, &q);
+    if (m != p || n != q)
+    {
+        printf("Matrix Addition is not possible");
+        return;
+    }
+    else if (n != p)
+    {
+        printf("Matrix Multiplication is not possible");
+        return;
+    }
+    else
+    {
+        printf("Enter elements of matrix A: ");
+        for (i = 0; i < m; i++)
+            for (j = 0; j < n; j++)
+                scanf("%d", &a[i][j]);
+        printf("Enter elements of matrix B: ");
+        for (i = 0; i < p; i++)
+            for (j = 0; j < q; j++)
+                scanf("%d", &b[i][j]);
+        // Matrix Addition
+        for (i = 0; i < m; i++)
+            for (j = 0; j < n; j++)
+                c[i][j] = a[i][j] + b[i][j];
+        printf("\nResult of Matirx Addition:\n");
+        for (i = 0; i < m; i++)
+        {
+            for (j = 0; j < n; j++)
+                printf("%d ", c[i][j]);
+            printf("\n");
+        }
+        // Matrix Multiplication
+        for (i = 0; i < m; i++)
+            for (j = 0; j < q; j++)
+                for (k = 0; k < p; k++)
+                    d[i][j] += a[i][k] * b[k][j];
+        printf("\nResult of Matirx Multiplication:\n");
+        for (i = 0; i < m; i++)
+        {
+            for (j = 0; j < q; j++)
+                printf("%d ", d[i][j]);
+            printf("\n");
+        }
+    }
+    return 0;
+}
+```
+
+input
+
+```
+3 3
+3 3
+1 2 3 4 5 6 7 8 9
+1 2 3 4 5 6 7 8 9
+```
+
+Sample Output:
+
+```
+Enter no. of rows and columns in matrix A: Enter no. of rows and columns in matrix B: Enter elements of matrix A: Enter elements of matrix B:
+Result of Matirx Addition:
+2 4 6
+8 10 12
+14 16 18
+
+Result of Matirx Multiplication:
+30 36 42
+66 81 96
+102 126 150
+```
+
+## 12. Write a program that takes a matrix A and finds its transpose A^T and displays it
+
+Solution:
+
+```c
+#include <stdio.h>
+
+int main()
+
+{
+    int arr1[50][50], brr1[50][50], i, j, r, c;
+
+    printf("\nInput the rows and columns of the matrix : ");
+    scanf("%d %d", &r, &c);
+
+    printf("Input elements in the first matrix :\n");
+    for (i = 0; i < r; i++)
+    {
+        for (j = 0; j < c; j++)
+        {
+            printf("element - [%d],[%d] : ", i, j);
+            scanf("%d", &arr1[i][j]);
+        }
+    }
+
+    printf("\nThe matrix is :\n");
+    for (i = 0; i < r; i++)
+    {
+        printf("\n");
+        for (j = 0; j < c; j++)
+            printf("%d\t", arr1[i][j]);
+    }
+
+    for (i = 0; i < r; i++)
+    {
+        for (j = 0; j < c; j++)
+        {
+            brr1[j][i] = arr1[i][j];
+        }
+    }
+
+    printf("\n\nThe transpose of a matrix is : ");
+    for (i = 0; i < c; i++)
+    {
+        printf("\n");
+        for (j = 0; j < r; j++)
+        {
+            printf("%d\t", brr1[i][j]);
+        }
+    }
+    printf("\n\n");
+}
+```
+
+input
+
+```
+3 3
+1 2 3 4 5 6 7 8 9
+```
+
+Sample Output:
+
+```
+Input the rows and columns of the matrix : Input elements in the first matrix :
+element - [0],[0] : element - [0],[1] : element - [0],[2] : element - [1],[0] : element - [1],[1] : element - [1],[2] : element - [2],[0] : element - [2],[1] : element - [2],[2] :
+The matrix is :
+
+1	2	3
+4	5	6
+7	8	9
+
+The transpose of a matrix is :
+1	4	7
+2	5	8
+3	6	9
+```
+
+## 13. Write a program that computes the sum of diagonal elements of a square matrix.
+
+Solution:
+
+```c
+#include <stdio.h>
+int main()
+{
+    int i, j, matrix[10][10], row, col;
+    int sum = 0;
+
+    printf("\nEnter the number of Rows : ");
+    scanf("%d", &row);
+
+    printf("\nEnter the number of Columns : ");
+    scanf("%d", &col);
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            printf("\nEnter the Element a[%d][%d] : ", i, j);
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            if (i == j)
+                sum = sum + matrix[i][j];
+        }
+    }
+    printf("\nSum of Diagonal Elements in Matrix is: %d", sum);
+    return 0;
+}
+```
+
+input
+
+```
+3 3
+1 2 3 4 5 6 7 8 9
+```
+
+Sample Output:
+
+```
+Enter the number of Rows :
+Enter the number of Columns :
+Enter the Element a[0][0] :
+Enter the Element a[0][1] :
+Enter the Element a[0][2] :
+Enter the Element a[1][0] :
+Enter the Element a[1][1] :
+Enter the Element a[1][2] :
+Enter the Element a[2][0] :
+Enter the Element a[2][1] :
+Enter the Element a[2][2] :
+Sum of Diagonal Elements in Matrix is: 15
+```
+
+## 14. Write a program to find the length of a string
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[100]; // Assuming a maximum string length of 100 characters
+
+    // Input a string from the user
+    printf("Enter a string: ");
+    scanf("%s", str);
+
+    // Calculate the length of the string using the strlen() function
+    int length = strlen(str);
+
+    // Display the length of the string
+    printf("Length of the string: %d\n", length);
+
+    return 0;
+}
+```
+
+input
+
+```
+Hello
+```
+
+output
+
+```
+Enter a string:
+Length of the string: 5
+```
+
+## 15. Write a program to concatenate two strings
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[100]; // Assuming a maximum combined length of 100 characters for both strings
+    char str2[50];  // You can adjust this size based on your input requirements
+
+    // Input the first string from the user
+    printf("Enter the first string: ");
+    scanf("%s", str1);
+
+    // Input the second string from the user
+    printf("Enter the second string: ");
+    scanf("%s", str2);
+
+    // Concatenate the two strings using the strcat() function
+    strcat(str1, str2);
+
+    // Display the concatenated string
+    printf("Concatenated string: %s\n", str1);
+
+    return 0;
+}
+```
+
+input
+
+```
+hello-
+buddy
+```
+
+output
+
+```
+Enter the first string: Enter the second string: Concatenated string: hello-buddy
+```
